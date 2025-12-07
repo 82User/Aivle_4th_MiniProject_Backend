@@ -57,7 +57,7 @@ public class MemberServiceImpl implements MemberService {
         String refreshToken = jwtUtil.generateRefreshToken(username);
 
         return LoginResponseDto.builder()
-                .userId(member.getId().toString()) // spec은 UUID지만, 지금은 id를 문자열로
+                .userId(member.getId().toString())
                 .username(member.getUsername())
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)

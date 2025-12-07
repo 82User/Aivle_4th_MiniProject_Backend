@@ -4,7 +4,9 @@ import com.example.aivle_4th_MiniProject_team19.Controller.dto.BookCreateForm;
 import com.example.aivle_4th_MiniProject_team19.Controller.dto.BookUpdateForm;
 import com.example.aivle_4th_MiniProject_team19.Entity.Book;
 import com.example.aivle_4th_MiniProject_team19.Exception.BookNotFoundException;
+import com.example.aivle_4th_MiniProject_team19.Repository.BookQueryRepository;
 import com.example.aivle_4th_MiniProject_team19.Repository.BookRepository;
+import com.example.aivle_4th_MiniProject_team19.Repository.dto.BookSearch;
 import com.example.aivle_4th_MiniProject_team19.Service.dto.BookDetailDto;
 import com.example.aivle_4th_MiniProject_team19.Service.dto.BookListDto;
 import com.example.aivle_4th_MiniProject_team19.Service.dto.MemberDto;
@@ -24,6 +26,7 @@ import java.util.Optional;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final BookQueryRepository bookQueryRepository;
 
     // 도서 등록
     @Transactional
@@ -37,12 +40,29 @@ public class BookService {
         return savedBook.getId();
     }
 
-    // 도서 검색(목록, 전체)
+    // 도서 목록(전체)
     public List<BookListDto> getBookList() {
+
         List<Book> books = bookRepository.findAll();
 
         List<BookListDto> list = new ArrayList<>();
         for (Book book : books) {
+            BookListDto bookListDto = BookListDto.from(book);
+            list.add(bookListDto);
+        }
+
+        return list;
+    }
+
+    // 도서 검색(목록, 전체)
+    public List<BookListDto> searchBookList(String title, String author, String category) {
+
+        BookSearch bookSearch = new BookSearch(title, author, category);
+        List<Book> bookList = bookQueryRepository.search(bookSearch);
+
+        List<BookListDto> list = new ArrayList<>();
+
+        for (Book book : bookList) {
             BookListDto bookListDto = BookListDto.from(book);
             list.add(bookListDto);
         }
