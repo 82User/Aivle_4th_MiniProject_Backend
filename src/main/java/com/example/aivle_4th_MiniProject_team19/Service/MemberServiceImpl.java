@@ -20,7 +20,7 @@ public class MemberServiceImpl implements MemberService {
     public SignupResponseDto createMember(MemberDto dto) {
 
         if (memberRepository.existsByUsername(dto.getUsername())) {
-            throw new IllegalArgumentException("이미 존재하는 사용자 이름입니다.");
+            throw new SecurityException("아이디 중복");
         }
 
         Member member = Member.builder()
@@ -47,10 +47,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public LoginResponseDto login(String username, String password) {
         Member member = memberRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("존재하지 않는 사용자입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("없거나 삭제된 아이디입니다.."));
 
         if (!member.getPassword().equals(password)) {
-            throw new RuntimeException("비밀번호가 올바르지 않습니다.");
+            throw new SecurityException("사용자 이름 또는 비밀번호가 올바르지 않습니다.");
         }
 
         String accessToken = jwtUtil.generateAccessToken(username);
