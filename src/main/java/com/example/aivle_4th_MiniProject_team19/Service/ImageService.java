@@ -3,6 +3,7 @@ package com.example.aivle_4th_MiniProject_team19.Service;
 import com.example.aivle_4th_MiniProject_team19.Entity.Image;
 import com.example.aivle_4th_MiniProject_team19.Repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,13 +25,15 @@ public class ImageService {
 
     private final ImageRepository imageRepository;
 
-    private static final String BASE_DIR = "C:/image-uploads";
+//    private static final String baseDir = "C:/image-uploads";
+    @Value("${image.upload-dir}")
+    private String baseDir;
 
     public Image saveImageFromUrl(String input) throws IOException {
 
         String fileName = UUID.randomUUID() + ".png";
 
-        Path uploadPath = Paths.get(BASE_DIR);
+        Path uploadPath = Paths.get(baseDir);
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
@@ -91,7 +94,7 @@ public class ImageService {
             fileName = UUID.randomUUID() + ".png";
         }
 
-        Path uploadPath = Paths.get(BASE_DIR);
+        Path uploadPath = Paths.get(baseDir);
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }

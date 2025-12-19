@@ -42,3 +42,6 @@ logging:
     org.hibernate.SQL: debug
     org.springframework: DEBUG
     org.springframework.web: DEBUG
+
+image:
+  upload-dir: /home/ubuntu/image-uploads
