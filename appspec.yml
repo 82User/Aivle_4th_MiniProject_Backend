@@ -6,6 +6,10 @@ files:
     destination: /home/ubuntu/app
     overwrite: yes
 
+  - source: scripts
+    destination: /home/ubuntu/app/scripts
+    overwrite: yes
+
 permissions:
   - object: /home/ubuntu/app
     pattern: "**"
