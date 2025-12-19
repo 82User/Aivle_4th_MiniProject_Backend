@@ -1,17 +1,16 @@
 #!/bin/bash
+set +e
 
 APP_PATH=/home/ec2-user/app
 
-echo "Cleanup started..."
+echo "[cleanup] start"
 
-# 디렉토리 없으면 그냥 통과
 if [ ! -d "$APP_PATH" ]; then
-  echo "App directory does not exist. Skipping cleanup."
+  echo "[cleanup] app directory does not exist, skip"
   exit 0
 fi
 
-# jar 없어도 실패하지 않게
-rm -f $APP_PATH/*.jar || true
+rm -f "$APP_PATH"/*.jar || true
 
-echo "Cleanup finished."
+echo "[cleanup] done"
 exit 0
