@@ -1,4 +1,3 @@
-cat <<'EOF' > scripts/cleanup.sh
 #!/bin/bash
 set +e
 
@@ -15,4 +14,3 @@ rm -f "$APP_PATH"/*.jar || true
 
 echo "[cleanup] done"
 exit 0
-EOF
