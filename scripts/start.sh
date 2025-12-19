@@ -1,10 +1,13 @@
 #!/bin/bash
+set +e
 
-APP_PATH=/home/ec2-user/app
-APP_NAME=$(ls $APP_PATH/*.jar | head -n 1)
+APP_PATH=/home/ubuntu/app
+JAR=$(ls $APP_PATH/*.jar | grep -v plain | head -n 1)
 
-echo "Starting application: $APP_NAME"
+echo "Starting app: $JAR"
 
-nohup java -jar $APP_NAME \
+nohup java -jar "$JAR" \
   --spring.profiles.active=prod \
   > $APP_PATH/app.log 2>&1 &
+
+exit 0
