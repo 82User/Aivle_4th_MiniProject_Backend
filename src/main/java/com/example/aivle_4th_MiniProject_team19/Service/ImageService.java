@@ -3,6 +3,7 @@ package com.example.aivle_4th_MiniProject_team19.Service;
 import com.example.aivle_4th_MiniProject_team19.Entity.Image;
 import com.example.aivle_4th_MiniProject_team19.Repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Base64;
 import java.util.UUID;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -39,6 +41,8 @@ public class ImageService {
         }
 
         Path filePath = uploadPath.resolve(fileName);
+        log.info("fileName : {}", fileName);
+        log.info("filePath : {}", filePath);
 
         // ⭐ CASE 1: Base64로 들어온 경우
         if (input.startsWith("data:image")) {
@@ -54,7 +58,6 @@ public class ImageService {
         image.setOriginFileName(input);
         image.setModifiedFileName(fileName);
 
-
         return imageRepository.save(image);
     }
 
@@ -62,6 +65,7 @@ public class ImageService {
     private void saveFromUrl(String originUrl, Path filePath) throws IOException {
 
         URL url = new URL(originUrl);
+        log.info("url : {}", url);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestProperty("User-Agent", "Mozilla/5.0");
@@ -75,6 +79,7 @@ public class ImageService {
     private void saveBase64(String base64, Path filePath) throws IOException {
 
         String base64Data = base64.substring(base64.indexOf(",") + 1);
+        log.info("base64Data : {}", base64Data);
 
         byte[] decodedBytes = Base64.getDecoder().decode(base64Data);
 
